@@ -75,7 +75,7 @@ public class TodosTest {
         todos.add(epic);
         todos.add(meeting);
 
-        String query = "Во вторник после обеда";
+        String query = "Задача которой нет)";
 
         Task[] expected = {};
         Task[] actual = todos.search(query);
@@ -132,6 +132,33 @@ public class TodosTest {
         String query = "Выкатка 3й версии приложения";
 
         Task[] expected = {meeting};
+        Task[] actual = todos.search(query);
+        Assertions.assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    public void searchShouldFindTwoTasksTest() {
+        SimpleTask simpleTask = new SimpleTask(5, "Выкатка 3й версии приложения");
+
+        String[] subtasks = {"Молоко", "Яйца", "Хлеб"};
+        Epic epic = new Epic(55, subtasks);
+
+        Meeting meeting = new Meeting(
+                555,
+                "Выкатка 3й версии приложения",
+                "Приложение НетоБанка",
+                "Во вторник после обеда"
+        );
+
+        Todos todos = new Todos();
+
+        todos.add(simpleTask);
+        todos.add(epic);
+        todos.add(meeting);
+
+        String query = "Выкатка 3й версии приложения";
+
+        Task[] expected = {simpleTask, meeting};
         Task[] actual = todos.search(query);
         Assertions.assertArrayEquals(expected, actual);
     }
